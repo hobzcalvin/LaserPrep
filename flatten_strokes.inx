@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <_name>Flatten Strokes to Path</_name>
+  <id>org.bg.filter.strokeflat</id>
+  <dependency type="executable" location="extensions">flatten_strokes.py</dependency>
+  <dependency type="executable" location="extensions">inkex.py</dependency>
+  <dependency type="executable" location="extensions">synfig_prepare.py</dependency>
+  <!--<dependency type="executable" location="extensions">simplepath.py</dependency>-->
+  <!--<param name="kerf" type="float" min="-1000.0" max="1000.0" _gui-text="Kerf (pixels, - inside, + outside)">3.</param>
+  <param name="original" type="boolean" _gui-text="Keep original path?">false</param>-->
+  <effect>
+    <object-type>all</object-type>
+      <effects-menu>
+        <submenu _name="Laser Prep"/>
+      </effects-menu>
+  </effect>
+  <script>
+    <command reldir="extensions" interpreter="python">flatten_strokes.py</command>
+  </script>
+</inkscape-extension>
