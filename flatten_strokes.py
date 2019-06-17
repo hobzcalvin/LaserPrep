@@ -44,29 +44,38 @@ class FlattenStrokes(inkex.Effect):
         if len(self.selected) == 0:
             error("No selection found")
             return
-        
+    
         # Duplicate selection
+        duplicates = {}
         pm = PathModifier()
         pm.document = self.document
-        duplicates = pm.duplicateNodes(self.selected)
+        for nid, node in self.selected.iteritems():
+            # duplicateNodes() returns a { nodeid: node } dict;
+            # link the duplicate nodeid to its original in duplicates
+            duplicates[nid] = pm.duplicateNodes({nid: node}).keys()[0]
 
+        # Unlink clones and convert objects to paths
         a = InkscapeActionGroup(self.document)
-        for nid in duplicates:
-            a.select_id(nid)
-        a.verb('EditUnlinkClone')
-        a.verb('ObjectToPath')
-        a.verb('StrokeToPath')
         for nid in self.selected:
             a.select_id(nid)
+            a.select_id(duplicates[nid])
         a.verb('EditUnlinkClone')
         a.verb('ObjectToPath')
-        a.verb('SelectionUnion')
         self.document = a.run_document()
 
-        for nid in self.selected.keys() + duplicates.keys():
+        a = InkscapeActionGroup(self.document)
+        for nid in self.selected:
+            a.select_id(duplicates[nid])
+            a.verb('StrokeToPath')
+            a.select_id(nid)
+            a.verb('SelectionUnion')
+            a.deselect()
+        self.document = a.run_document()
+
+        for nid in self.selected.keys() + duplicates.values():
             node = self.getElementById(nid)
             if node is not None:
-                node.set('style', 'fill:#000000;stroke:none;')
+                node.set('style', 'opacity:0.25;fill:#000000;stroke:none;')
 
 
 if __name__ == '__main__':
