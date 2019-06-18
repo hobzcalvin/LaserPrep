@@ -29,7 +29,8 @@ These paths are set to black fill, no stroke, 25% opacity.
 This is designed specifically for export to .DXF files, particularly for use
 with RDWorks and the
 [Noisebridge laser cutter](https://www.noisebridge.net/wiki/Laser_Cutter).
-Use it when you're ready to save a .DXF file.
+Use it when you're ready to save a .DXF file. This extension works on all
+objects in the document, so you do not need to select anything.
 
 This attemps to deep-ungroup all groups, converts all objects to paths,
 unlinks clones from their parent objects, and then flattens all Bezier
