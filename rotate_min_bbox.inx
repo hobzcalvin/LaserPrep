@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
-  <_name>Rotate for Minimum Width</_name>
-  <id>org.bg.filter.rotateminwidth</id>
-  <dependency type="executable" location="extensions">rotate_min_width.py</dependency>
+  <_name>Rotate for Minimum Bounding Box Area</_name>
+  <id>org.bg.filter.rotateminbbox</id>
+  <dependency type="executable" location="extensions">rotate_min_bbox.py</dependency>
   <dependency type="executable" location="extensions">rotate_helper.py</dependency>
   <dependency type="executable" location="extensions">inkex.py</dependency>
   <dependency type="executable" location="extensions">simpletransform.py</dependency>
@@ -13,6 +13,6 @@
       </effects-menu>
   </effect>
   <script>
-    <command reldir="extensions" interpreter="python">rotate_min_width.py</command>
+    <command reldir="extensions" interpreter="python">rotate_min_bbox.py</command>
   </script>
 </inkscape-extension>

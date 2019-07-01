@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
-  <_name>Flatten Strokes to Path</_name>
-  <id>org.bg.filter.strokeflat</id>
-  <dependency type="executable" location="extensions">flatten_strokes.py</dependency>
+  <_name>Find All Optimal Rotations</_name>
+  <id>org.bg.filter.rotateminall</id>
+  <dependency type="executable" location="extensions">rotate_min_all.py</dependency>
+  <dependency type="executable" location="extensions">rotate_helper.py</dependency>
   <dependency type="executable" location="extensions">inkex.py</dependency>
   <dependency type="executable" location="extensions">pathmodifier.py</dependency>
-  <dependency type="executable" location="extensions">synfig_prepare.py</dependency>
+  <dependency type="executable" location="extensions">simpletransform.py</dependency>
   <effect>
     <object-type>all</object-type>
       <effects-menu>
@@ -13,6 +14,6 @@
       </effects-menu>
   </effect>
   <script>
-    <command reldir="extensions" interpreter="python">flatten_strokes.py</command>
+    <command reldir="extensions" interpreter="python">rotate_min_all.py</command>
   </script>
 </inkscape-extension>

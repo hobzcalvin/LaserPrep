@@ -21,6 +21,7 @@ import gettext
 import sys
 
 import inkex
+from pathmodifier import PathModifier
 import rotate_helper
 import simpletransform
 
@@ -32,15 +33,31 @@ if debug:
 else:
     stderr = lambda msg: None
 
-class RotateMinWidth(inkex.Effect):
+class RotateMinAll(inkex.Effect):
     def effect(self):
-        for node in self.selected.values():
-            min_width_angle = rotate_helper.optimal_rotations(node)[0]
-            if min_width_angle is not None:
+        pm = PathModifier()
+        pm.document = self.document
+
+        for nid, node in self.selected.iteritems():
+            # set() removes duplicates
+            angles = set(
+                # and remove Nones
+                [x for x in rotate_helper.optimal_rotations(node)
+                    if x is not None])
+            # Go backwards so we know if we need to duplicate the node for
+            # multiple rotations. (We don't want to rotate the main node
+            # before duplicating it.)
+            for i, angle in reversed(list(enumerate(angles))):
+                if i > 0:
+                    # Rotate a duplicate of the node
+                    rotate_node = pm.duplicateNodes({nid: node}).items()[0][1]
+                else:
+                    rotate_node = node
                 simpletransform.applyTransformToNode(
-                    rotate_helper.rotate_matrix(node, min_width_angle), node)
+                    rotate_helper.rotate_matrix(rotate_node, angle),
+                    rotate_node)
 
 
 if __name__ == '__main__':
-    rmw = RotateMinWidth()
-    rmw.affect()
+    rma = RotateMinAll()
+    rma.affect()

@@ -45,6 +45,17 @@ should be sufficient.
 Helpful when trying to nest objects, this extension rotates all selected
 objects to minimize their width.
 
+## Rotate for Minimum Bounding Box Area
+
+Similarly, this rotates all selected objects to minimize the area of their
+bounding boxes.
+
+## Find All Optimal Rotations
+
+This rotates the selected objects to minimize the width and area of their
+bounding boxes. If these are optimized at different angles, the objects
+are duplicated and rotated accordingly.
+
 # Future
 Lots more is possible here, and this was a quick and dirty solution to
 speed up my workflow. It's python-only, but much more can be done with a

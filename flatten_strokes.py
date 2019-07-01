@@ -22,8 +22,6 @@ import re
 import sys
 
 import inkex
-import simplepath
-#import simplestyle
 
 from synfig_prepare import InkscapeActionGroup, SynfigExportActionGroup
 from pathmodifier import PathModifier

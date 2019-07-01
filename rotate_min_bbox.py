@@ -32,15 +32,15 @@ if debug:
 else:
     stderr = lambda msg: None
 
-class RotateMinWidth(inkex.Effect):
+class RotateMinBBox(inkex.Effect):
     def effect(self):
         for node in self.selected.values():
-            min_width_angle = rotate_helper.optimal_rotations(node)[0]
-            if min_width_angle is not None:
+            min_bbox_angle = rotate_helper.optimal_rotations(node)[1]
+            if min_bbox_angle is not None:
                 simpletransform.applyTransformToNode(
-                    rotate_helper.rotate_matrix(node, min_width_angle), node)
+                    rotate_helper.rotate_matrix(node, min_bbox_angle), node)
 
 
 if __name__ == '__main__':
-    rmw = RotateMinWidth()
+    rmw = RotateMinBBox()
     rmw.affect()
