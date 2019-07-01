@@ -40,6 +40,11 @@ all the way down to 0.1 (or how you want it) before running this extension.
 That setting is preserved between Inkscape restarts, so setting it once
 should be sufficient.
 
+## Rotate for Minimum Width
+
+Helpful when trying to nest objects, this extension rotates all selected
+objects to minimize their width.
+
 # Future
 Lots more is possible here, and this was a quick and dirty solution to
 speed up my workflow. It's python-only, but much more can be done with a

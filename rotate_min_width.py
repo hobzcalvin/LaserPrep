@@ -22,7 +22,6 @@ from math import cos, pi, sin
 import sys
 
 import inkex
-import simplepath
 import simpletransform
 
 debug = False
