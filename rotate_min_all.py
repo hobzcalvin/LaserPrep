@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 '''
 Copyright (C) 2019 Grant Patterson <grant@revoltlabs.co>
 
@@ -19,11 +19,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import gettext
 import sys
-
 import inkex
-from pathmodifier import PathModifier
 import rotate_helper
-import simpletransform
+from inkex import Transform
+import copy
 
 debug = False
 
@@ -32,17 +31,26 @@ if debug:
     stderr = lambda msg: sys.stderr.write(msg + '\n')
 else:
     stderr = lambda msg: None
-
+	
 class RotateMinAll(inkex.Effect):
     def effect(self):
-        pm = PathModifier()
-        pm.document = self.document
-
-        for nid, node in self.selected.iteritems():
+        def duplicateNodes(aList):
+            clones={}
+            for id,node in aList.items():
+                clone=copy.deepcopy(node)
+                #!!!--> should it be given an id?
+                #seems to work without this!?!
+                myid = node.tag.split('}')[-1]
+                clone.set("id", self.svg.get_unique_id(myid))
+                node.getparent().append(clone)
+                clones[clone.get("id")]=clone
+            return(clones)
+	
+        for nid, node in self.svg.selected.items():
             # set() removes duplicates
             angles = set(
                 # and remove Nones
-                [x for x in rotate_helper.optimal_rotations(node)
+                [x for x in fablabchemnitz_rotate_helper.optimal_rotations(node)
                     if x is not None])
             # Go backwards so we know if we need to duplicate the node for
             # multiple rotations. (We don't want to rotate the main node
@@ -50,14 +58,9 @@ class RotateMinAll(inkex.Effect):
             for i, angle in reversed(list(enumerate(angles))):
                 if i > 0:
                     # Rotate a duplicate of the node
-                    rotate_node = pm.duplicateNodes({nid: node}).items()[0][1]
+                    rotate_node = list(duplicateNodes({nid: node}).items())[0][1]
                 else:
                     rotate_node = node
-                simpletransform.applyTransformToNode(
-                    rotate_helper.rotate_matrix(rotate_node, angle),
-                    rotate_node)
-
-
+                rotate_node.transform = fablabchemnitz_rotate_helper.rotate_matrix(rotate_node, angle) * rotate_node.transform
 if __name__ == '__main__':
-    rma = RotateMinAll()
-    rma.affect()
+    RotateMinAll().run()
