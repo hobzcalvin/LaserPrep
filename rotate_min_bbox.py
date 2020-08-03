@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 '''
 Copyright (C) 2019 Grant Patterson <grant@revoltlabs.co>
 
@@ -19,10 +19,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import gettext
 import sys
-
 import inkex
 import rotate_helper
-import simpletransform
+from inkex import Transform
 
 debug = False
 
@@ -34,13 +33,9 @@ else:
 
 class RotateMinBBox(inkex.Effect):
     def effect(self):
-        for node in self.selected.values():
-            min_bbox_angle = rotate_helper.optimal_rotations(node)[1]
+        for node in self.svg.selected.values():
+            min_bbox_angle = fablabchemnitz_rotate_helper.optimal_rotations(node)[1]
             if min_bbox_angle is not None:
-                simpletransform.applyTransformToNode(
-                    rotate_helper.rotate_matrix(node, min_bbox_angle), node)
-
-
+                node.transform = Transform(fablabchemnitz_rotate_helper.rotate_matrix(node, min_bbox_angle)) * node.transform 	
 if __name__ == '__main__':
-    rmw = RotateMinBBox()
-    rmw.affect()
+    RotateMinBBox().run()
